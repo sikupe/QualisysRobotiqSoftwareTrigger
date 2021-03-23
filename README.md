@@ -1,1 +1,1 @@
-# -QualisysRobotiqSoftwareTrigger
+# QualisysRobotiqSoftwareTrigger
