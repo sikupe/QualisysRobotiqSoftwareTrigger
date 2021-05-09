@@ -1,3 +1,5 @@
+#!/Users/QTM/Desktop/QualisysRobotiqSoftwareTrigger/robotiq_python_script/Script/activate.bat
+
 import subprocess
 import os, sys, time, inspect, socket, threading, stat
 from multiprocessing import Process, Value
@@ -51,11 +53,16 @@ def robotiq_data_logger(status_qtm, folder, file):
     p_num = 0
     p = None
     line = None
-    target = 'C:/Users/QTM/Desktop/gabriel/RobotiqForceTorque300/FT-300_dev_package_SDP-1.0.1_20180328/driverSensor_modified.exe'
+    # target = 'C:/Users/QTM/Desktop/gabriel/RobotiqForceTorque300/FT-300_dev_package_SDP-1.0.1_20180328/driverSensor_modified.exe'
+    # target = "C:/Users/QTM//Desktop/QualisysRobotiqSoftwareTrigger/robotiq_python_script/robotiq_env/Scripts/activate.bat && python C:/Users/QTM//Desktop/QualisysRobotiqSoftwareTrigger/robotiq_python_script/pyFT300stream_2.py"
+    venv = "C:/Users/QTM//Desktop/gabriel/robotiq_python_script/robotiq_env/Scripts/activate.bat"
+    target = "python C:/Users/QTM//Desktop/QualisysRobotiqSoftwareTrigger/robotiq_python_script/pyFT300stream_2.py"
 
     while True:
         if status_qtm.value and p_num == 0:
             log = open(folder.joinpath(str(file) + str(counter) + '.txt'), 'w+')
+            # p = subprocess.Popen(target, stdout=log, shell=False)
+            # p = subprocess.Popen(["python", target])
             p = subprocess.Popen(target, stdout=log, shell=False)
             p_num = 1
 

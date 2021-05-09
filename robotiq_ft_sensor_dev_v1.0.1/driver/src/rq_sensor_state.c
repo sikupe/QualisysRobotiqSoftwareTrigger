@@ -48,7 +48,8 @@
 
 ///////////////////
 //Private variables
-static enum rq_sensor_state_values current_state = RQ_STATE_INIT;
+// static enum rq_sensor_state_values current_state = RQ_STATE_INIT;
+static enum rq_sensor_state_values current_state = RQ_STATE_START_STREAM;
 
 ///////////////////
 //Private functions
@@ -119,7 +120,7 @@ static INT_8 rq_state_init_com()
 /**
  * \fn void rq_state_read_info_high_lvl(void)
  * \brief Reads the high level information from the
- *        sensor and set the next state to 
+ *        sensor and set the next state to
  *        \ref RQ_STATE_START_STREAM
  */
 static void rq_state_read_info_high_lvl()
@@ -186,7 +187,7 @@ float rq_state_get_received_data(UINT_8 i)
 /**
  * \fn int rq_state_get_command(char* name, char *value)
  * \brief Gets the value of high level information from the sensor
- * \param name the name of the information field. The value can be 
+ * \param name the name of the information field. The value can be
  *                either "SNU", "FMW" or "PYE"
  * \param value A string
  * \return 0 in case of succes, -1 otherwise

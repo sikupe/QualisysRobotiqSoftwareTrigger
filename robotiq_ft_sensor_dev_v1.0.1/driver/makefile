@@ -11,11 +11,11 @@ all: windows
 windows: Windows/$(BIN)driverSensor
 
 Windows/$(BIN)driverSensor: Windows/$(OBJ)main.o Windows/$(OBJ)libRQSensorWin.a
-	gcc $^ -o $@
+	gcc $^ -o  $@
 
 # Windows/$(OBJ)%.o: Windows/$(SRC)%.c
 Windows/$(OBJ)%.o: Windows/src/main_modified.c
-	gcc -c -Wall -std=c99 -o $@ $<
+	gcc -c -Wall -std=c99 -o  $@  $<
 
 data_logger: Windows/$(OBJ)libRQSensorWin.a
 	gcc -c -Wall -std=c99 Windows/Data_logger/src/main.c -o Windows/Data_logger/obj/main.o

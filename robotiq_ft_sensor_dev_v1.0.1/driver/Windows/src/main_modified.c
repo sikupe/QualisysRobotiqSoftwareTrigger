@@ -110,16 +110,16 @@ static void get_data(INT_8 * chr_return){
 	for(i = 0; i < 6; i++){
 		sprintf(floatData, "%f", rq_state_get_received_data(i));
 		if(i == 0){
-			strcpy(chr_return, "");
+			// strcpy(chr_return, "");
 			strcat(chr_return, floatData);
 		}
 		else{
 			strcat(chr_return," , ");
 			strcat(chr_return,floatData);
 		}
-		if(i == 5){
-			strcat(chr_return, "");
-		}
+		// if(i == 5){
+		// 	// strcat(chr_return, "");
+		// }
 	}
 }
 
@@ -187,26 +187,37 @@ static void get_data(INT_8 * chr_return){
 	 printf("t(s),FX,FY,FZ,MX,MY,MZ\n");
 	 INT_8 bufStream[512];
 	 clock_t start, diff;
+	  // struct timespec start, end;
+	 // double diff;
 	 int timerVerif = 1;
+
+	 // rq_com_start_stream();
+	 // ret = rq_sensor_state();
 	 start = clock();
+	  // rq_com_listen_stream();
+	 // clock_gettime(CLOCK_MONOTONIC, &start);
 	 while(1){
+		  // rq_com_listen_stream();
 		 ret = rq_sensor_state();
-		 if(ret == -1){
-			 wait_for_other_connection();
-		 }
-		 if(rq_sensor_get_current_state() == RQ_STATE_RUN){
-			 diff = clock() - start;
-			 if(floor(((((float)diff)/CLOCKS_PER_SEC)+(REGLE_TEMPS/nb))/(REGLE_TEMPS/nb)) >= timerVerif){
+		 // if(ret == -1){
+			//  wait_for_other_connection();
+		 // }
+		 // if(rq_sensor_get_current_state() == RQ_STATE_RUN){
+		 // clock_gettime(CLOCK_MONOTONIC, &end);
+		 // diff = (end.tv_sec - start.tv_sec) * 1e9;
+		 // diff = (diff + (end.tv_nsec - start.tv_nsec)) * 1e-9;
+			diff = clock() - start;
+			 // if(floor(((((float)diff)/CLOCKS_PER_SEC)+(REGLE_TEMPS/nb))/(REGLE_TEMPS/nb)) >= timerVerif){
 				 // fprintf(fp,"\n");
 				 // fprintf(fp,"%f,",((float)diff)/CLOCKS_PER_SEC);
-				 printf("%f, ",((float)diff)/CLOCKS_PER_SEC);
+				 printf("%f, ",((double)diff)/(CLOCKS_PER_SEC));
 				 strcpy(bufStream,"");
 				 get_data(bufStream);
 				 printf("%s\n", bufStream);
 				 // fprintf(fp,bufStream);
-				 timerVerif++;
-			 }
-		 }
+				 // timerVerif++;
+			 // }
+		 // }
 	 }
 	 return 0;
 	}
