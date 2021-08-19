@@ -2,8 +2,9 @@
 ## Installation
 Clone repositroy<br>
 <ins>SSH:</ins><br>
+```git clone git@github.com:grashidi/QualisysRobotiqSoftwareTrigger.git```<br><br>
 <ins>HTTPS:</ins><br>
-```https://github.com/grashidi/QualisysRobotiqSoftwareTrigger.git```<br><br>
+```git clone https://github.com/grashidi/QualisysRobotiqSoftwareTrigger.git```<br><br>
 Change into the cloned repository<br>
 ```cd QualisysRobotiqSoftwareTrigger```<br><br>
 Install the required python packages<br>
