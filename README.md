@@ -11,5 +11,5 @@ Install the required python packages.<br>
 ```pip3 install -r requirements.txt```<br><br>
 Start the synchronization program when QTM is running.<br>
 ```python3 main.py -d your_directory -f your_filename```<br><br>
-Generated data will be stored in your_directory/your_filename_[counter].txt<br>
+Generated data will be stored in <ins>your_directory/your_filename_[counter].txt</ins><br>
 Absolute and relative file paths are supported.
