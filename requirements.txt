@@ -1,0 +1,4 @@
+Arrays==0.0.5
+asyncio==3.4.3
+qtm==2.1.0
+sockets==1.0.0
