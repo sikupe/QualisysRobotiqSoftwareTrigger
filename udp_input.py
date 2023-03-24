@@ -1,5 +1,4 @@
 import socket
-import array
 
 
 def send_udp(host, port, message):

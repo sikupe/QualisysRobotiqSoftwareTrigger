@@ -19,17 +19,19 @@ logging.basicConfig(
     stream=sys.stderr,
 )
 
+
 class Subscriber:
     def __init__(self, name, host_moticon, port_moticon):
         self.name = name
         self.prev_state = None
         self.host_moticon = host_moticon
         self.port_moticon = port_moticon
+
     def update(self, state):
         if self.prev_state != state:
-            if(state == qtm.QRTEvent.EventCaptureStarted):
+            if state == qtm.QRTEvent.EventCaptureStarted:
                 send_udp(self.host_moticon, self.port_moticon, "1")
-            elif(state == qtm.QRTEvent.EventCaptureStopped):
+            elif state == qtm.QRTEvent.EventCaptureStopped:
                 send_udp(self.host_moticon, self.port_moticon, "0")
             self.prev_state = state
 
@@ -37,10 +39,13 @@ class Subscriber:
 class Publisher:
     def __init__(self):
         self.subscribers = set()
+
     def register(self, who):
         self.subscribers.add(who)
+
     def unregister(self, who):
         self.subscribers.discard(who)
+
     def dispatch(self, state):
         for subscriber in self.subscribers:
             subscriber.update(state)

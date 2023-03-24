@@ -1,11 +1,6 @@
-
 import asyncio
-import qtm
-import sys
 from observer import *
 import logging.config
-from argparse import ArgumentParser
-import array
 
 
 async def setup(host_qtm, port_qtm, host_moticon, port_moticon):
@@ -19,11 +14,11 @@ async def setup(host_qtm, port_qtm, host_moticon, port_moticon):
     if connection is None:
         return
 
-    #turn off logging from get_state()
+    # turn off logging from get_state()
     logging.config.dictConfig({
-    'version': 1,
-    # Other configs ...
-    'disable_existing_loggers': True
+        'version': 1,
+        # Other configs ...
+        'disable_existing_loggers': True
     })
 
     while True:
@@ -32,10 +27,11 @@ async def setup(host_qtm, port_qtm, host_moticon, port_moticon):
 
 async def observe_start_and_stop(connection, pub):
     state = await connection.get_state()
-    #state = None
+    # state = None
     pub.dispatch(state)
 
-#if __name__ == "__main__":
+
+# if __name__ == "__main__":
 def stream():
     # parser = ArgumentParser(description="UDP qtm event sender")
     # parser.add_argument("--host_qtm", default="127.0.0.1", help="IP address of the network interface which machine is running qtm")

@@ -1,18 +1,19 @@
 #!/Users/QTM/Desktop/QualisysRobotiqSoftwareTrigger/robotiq_python_script/Script/activate.bat
 
-import subprocess
-import os, sys, time, inspect, socket, threading, stat
-from multiprocessing import Process, Value
-import qtm_datastream
-from pathlib import Path
-from subprocess import Popen, PIPE, CalledProcessError
-from threading  import Thread
-import signal
 import argparse
+import os
+import socket
+import stat
+import subprocess
+import sys
+import threading
+from multiprocessing import Process, Value
+from os.path import join
+from pathlib import Path
 
+import qtm_datastream
 
-
-#shared memory var status_qtm: 0 = capture stopped; 1 = capture started
+# shared memory var status_qtm: 0 = capture stopped; 1 = capture started
 status_qtm = Value('d', 0)
 
 
@@ -30,7 +31,7 @@ class Server(object):
 
         while True:
             data, addr = sock.recvfrom(1024)
-            #print('server', data)
+            # print('server', data)
             status_qtm.value = int(data)
             print('server', status_qtm.value)
 
@@ -52,11 +53,11 @@ def robotiq_data_logger(status_qtm, folder, file):
     counter = 1
     p_num = 0
     p = None
-    line = None
-    # target = 'C:/Users/QTM/Desktop/gabriel/RobotiqForceTorque300/FT-300_dev_package_SDP-1.0.1_20180328/driverSensor_modified.exe'
-    # target = "C:/Users/QTM//Desktop/QualisysRobotiqSoftwareTrigger/robotiq_python_script/robotiq_env/Scripts/activate.bat && python C:/Users/QTM//Desktop/QualisysRobotiqSoftwareTrigger/robotiq_python_script/pyFT300stream_2.py"
-    venv = "C:/Users/QTM//Desktop/gabriel/robotiq_python_script/robotiq_env/Scripts/activate.bat"
-    target = "python C:/Users/QTM//Desktop/QualisysRobotiqSoftwareTrigger/robotiq_python_script/pyFT300stream_2.py"
+
+    current_dir = Path(__file__).parent.resolve()
+    exec_path = join(current_dir, 'robotiq_python_script/pyFT300stream_2.py')
+
+    target = f"python {exec_path}"
 
     while True:
         if status_qtm.value and p_num == 0:
@@ -74,6 +75,7 @@ def robotiq_data_logger(status_qtm, folder, file):
             p_num = 0
             counter += 1
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--dir',
@@ -83,7 +85,6 @@ if __name__ == '__main__':
                         help='filename',
                         required=True)
     args = parser.parse_args()
-
 
     folder = Path(args.dir)
     folder.mkdir(mode=0o777, parents=True, exist_ok=True)
