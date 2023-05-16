@@ -21,21 +21,24 @@ class CsvLogger:
             f'{dp.elapsed_time},{dp.frequency},{dp.force.x},{dp.force.y},{dp.force.z},{dp.torque.x},{dp.torque.y},{dp.torque.z}\n')
 
     def _run(self):
-        gen_left = self.connector_left.read()
-        gen_right = self.connector_right.read()
+        try:
+            gen_left = self.connector_left.read()
+            gen_right = self.connector_right.read()
 
-        with open(self.filename_left, 'w+') as f_left:
-            with open(self.filename_right, 'w+') as f_right:
-                self.print_header(f_left)
-                self.print_header(f_right)
+            with open(self.filename_left, 'w') as f_left:
+                with open(self.filename_right, 'w') as f_right:
+                    self.print_header(f_left)
+                    self.print_header(f_right)
 
-                while self.do_run:
-                    left: HandleDataPoint = next(gen_left)
-                    right: HandleDataPoint = next(gen_right)
+                    while self.do_run:
+                        left: HandleDataPoint = next(gen_left)
+                        right: HandleDataPoint = next(gen_right)
 
-                    self.print_data_point(f_left, left)
-                    self.print_data_point(f_right, right)
-
+                        self.print_data_point(f_left, left)
+                        self.print_data_point(f_right, right)
+        finally:
+            self.connector_left.teardown()
+            self.connector_right.teardown()
     def start(self):
         self.thread = threading.Thread(target=self._run)
         self.thread.start()
