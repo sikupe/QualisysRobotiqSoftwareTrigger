@@ -1,4 +1,5 @@
 import threading
+from os.path import abspath
 from typing import IO
 
 from robotiq_python_script.handle_connector import HandleConnector, HandleDataPoint, Coordinate
@@ -7,8 +8,8 @@ from robotiq_python_script.handle_connector import HandleConnector, HandleDataPo
 class CsvLogger:
     def __init__(self, connector_right: HandleConnector, connector_left: HandleConnector, filename_left: str,
                  filename_right: str):
-        self.filename_right = filename_right
-        self.filename_left = filename_left
+        self.filename_right = abspath(filename_right)
+        self.filename_left = abspath(filename_left)
         self.connector_right = connector_right
         self.connector_left = connector_left
         self.do_run = True
@@ -39,6 +40,7 @@ class CsvLogger:
         finally:
             self.connector_left.teardown()
             self.connector_right.teardown()
+
     def start(self):
         self.thread = threading.Thread(target=self._run)
         self.thread.start()
@@ -54,7 +56,7 @@ class CsvLogger:
         connector_right = HandleConnector(right_port)
         connector_left = HandleConnector(left_port)
 
-        connector_left.setup()
-        connector_right.setup()
+        connector_left.start()
+        connector_right.start()
 
         return CsvLogger(connector_right, connector_left, filename_left, filename_right)

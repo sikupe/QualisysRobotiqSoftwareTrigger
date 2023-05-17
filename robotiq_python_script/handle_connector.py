@@ -58,8 +58,9 @@ class HandleConnector:
         self.serial: Optional[serial.Serial] = None
         self.thread: Optional[threading.Thread] = None
         self.queue = Queue()
+        self.is_running = False
 
-    def setup(self):
+    def start(self):
         ############################
         # Deactivate streaming mode
         ############################
@@ -117,6 +118,7 @@ class HandleConnector:
                                     stopbits=self.stop_bits,
                                     timeout=self.timeout)
 
+        self.is_running = True
         self.thread = threading.Thread(target=self._start_read_async)
         self.thread.start()
 
@@ -158,7 +160,7 @@ class HandleConnector:
         # Data rate frequency in Hz
         frequency = 0
 
-        while True:
+        while self.is_running:
             # Read serial message
             ####################
 
@@ -184,7 +186,7 @@ class HandleConnector:
             # Update timer
             elapsed_time = time.time() - start_time
             # Calculate average frequency
-            frequency = round(nbr_messages / elapsed_time)
+            frequency = round(nbr_messages / elapsed_time) if elapsed_time > 0 else 0
 
             data_point = HandleDataPoint(elapsed_time, frequency,
                                          Coordinate(force_torque[0], force_torque[1], force_torque[2]),
@@ -197,6 +199,8 @@ class HandleConnector:
             yield self.queue.get()
 
     def teardown(self):
+        self.is_running = False
+        time.sleep(0.1)
         self.serial.close()
 
     @staticmethod
