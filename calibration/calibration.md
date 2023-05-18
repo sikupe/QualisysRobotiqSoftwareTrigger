@@ -34,7 +34,9 @@ Results:
 |left|0.987|-1.946|
 |right|1.154|-2.658|
 
+Plotted data of the left handle including the fit:
 ![Fit on the left handle data](left_force.png)
+Plotted data of the right handle including the fit:
 ![Fit on the right handle data](right_force.png)
 
 # Torques left

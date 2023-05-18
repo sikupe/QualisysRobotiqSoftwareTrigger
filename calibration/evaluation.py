@@ -75,8 +75,10 @@ def evaluate_forces():
         y_line = linear(x_line, a, b)
 
         ax.set_title(f'Force data fit for {handle} handle')
-        ax.errorbar(actual_forces, y_data[0], yerr=y_err, fmt='+', color='blue', label=f'Measurements with {distances[0]}')
-        ax.errorbar(actual_forces, y_data[1], yerr=y_err, fmt='x', color='green', label=f'Measurements with {distances[1]}')
+        ax.errorbar(actual_forces, y_data[0], yerr=y_err, fmt='+', color='blue',
+                    label=f'Measurements with {distances[0]}')
+        ax.errorbar(actual_forces, y_data[1], yerr=y_err, fmt='x', color='green',
+                    label=f'Measurements with {distances[1]}')
         ax.plot(x_line, y_line, color='red', label='Fitted curve')
 
         plt.plot()
@@ -84,7 +86,8 @@ def evaluate_forces():
         plt.close()
 
     print('# Force data fit')
-    print('Linear regression on the function `y(x) = a * x + b` with least squares on the force data of the handles.\n\n')
+    print(
+        'Linear regression on the function `y(x) = a * x + b` with least squares on the force data of the handles.\n\n')
     print('Results:')
     print('|Handle|a|b|')
     print('|-|-|-|')
@@ -92,8 +95,11 @@ def evaluate_forces():
         print(f'|{handles[i]}|{a_s[i]:.3f}|{b_s[i]:.3f}|')
 
     print()
+    print('Plotted data of the left handle including the fit:')
     print('![Fit on the left handle data](left_force.png)')
+    print('Plotted data of the right handle including the fit:')
     print('![Fit on the right handle data](right_force.png)')
+
 
 def evaluate_torques():
     handles = ['left', 'right']
