@@ -79,6 +79,8 @@ def evaluate_forces():
                     label=f'Measurements with {distances[0]}mm')
         ax.errorbar(actual_forces, y_data[1], yerr=y_err, fmt='x', color='green',
                     label=f'Measurements with {distances[1]}mm')
+        ax.set_xlabel('Expected force in N')
+        ax.set_ylabel('Measured force in N')
         ax.plot(x_line, y_line, color='red', label='Fitted curve')
         ax.legend()
 
