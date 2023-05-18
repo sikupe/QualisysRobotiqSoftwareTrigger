@@ -76,9 +76,9 @@ def evaluate_forces():
 
         ax.set_title(f'Force data fit for {handle} handle')
         ax.errorbar(actual_forces, y_data[0], yerr=y_err, fmt='+', color='blue',
-                    label=f'Measurements with {distances[0]}')
+                    label=f'Measurements with {distances[0]}mm')
         ax.errorbar(actual_forces, y_data[1], yerr=y_err, fmt='x', color='green',
-                    label=f'Measurements with {distances[1]}')
+                    label=f'Measurements with {distances[1]}mm')
         ax.plot(x_line, y_line, color='red', label='Fitted curve')
         ax.legend()
 
