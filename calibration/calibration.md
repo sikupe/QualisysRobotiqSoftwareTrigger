@@ -42,7 +42,7 @@ Plotted data of the handles including the fit:
 
 # Torques left
 
-| Weight | Weight measured | Distance | Expected torque | Measured Force w/ weight | Measured torque w/o weight |
+| Weight | Weight measured | Distance | Expected torque | Measured torque w/ weight | Measured torque w/o weight |
 |-|-|-|-|-|-|
 | 1kg | 1.1kg | 42mm | 0.4532 Nm | -0.4100 ± 0.0017 Nm | -0.1355 ± 0.1923 Nm |
 | 2kg | 1.95kg | 42mm | 0.8034 Nm | -0.9084 ± 0.0036 Nm | -0.0032 ± 0.0116 Nm |
@@ -55,7 +55,7 @@ Plotted data of the handles including the fit:
 
 # Torques right
 
-| Weight | Weight measured | Distance | Expected torque | Measured Force w/ weight | Measured torque w/o weight |
+| Weight | Weight measured | Distance | Expected torque | Measured torque w/ weight | Measured torque w/o weight |
 |-|-|-|-|-|-|
 | 1kg | 1.1kg | 42mm | 0.4532 Nm | -0.4466 ± 0.0048 Nm | 0.0002 ± 0.0038 Nm |
 | 2kg | 1.95kg | 42mm | 0.8034 Nm | -0.7456 ± 0.0050 Nm | -0.0372 ± 0.0625 Nm |

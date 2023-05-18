@@ -113,7 +113,7 @@ def evaluate_torques():
     for handle in handles:
         print(f'# Torques {handle}')
         print(
-            '| Weight | Weight measured | Distance | Expected torque | Measured Force w/ weight | Measured torque w/o weight |')
+            '| Weight | Weight measured | Distance | Expected torque | Measured torque w/ weight | Measured torque w/o weight |')
         print('|-|-|-|-|-|-|')
         for distance in distances:
             for weight, actual_weight in zip(weights, actual_weights):
