@@ -52,7 +52,7 @@ def evaluate_forces():
                 zero_std = np.std(zero_values)
                 force_std = np.std(force_values)
 
-                calc_weight = force_avg / 9.81
+                calc_weight = force_avg / -9.81
 
                 y_data_unflattened.append(force_avg)
                 y_err_unflattened.append(force_std)
