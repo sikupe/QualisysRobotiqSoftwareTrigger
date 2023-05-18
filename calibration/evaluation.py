@@ -80,6 +80,7 @@ def evaluate_forces():
         ax.errorbar(actual_forces, y_data[1], yerr=y_err, fmt='x', color='green',
                     label=f'Measurements with {distances[1]}')
         ax.plot(x_line, y_line, color='red', label='Fitted curve')
+        ax.legend()
 
         plt.plot()
         plt.savefig(f'{handle}_force.png')
