@@ -95,10 +95,10 @@ def evaluate_forces():
         print(f'|{handles[i]}|{a_s[i]:.3f}|{b_s[i]:.3f}|')
 
     print()
-    print('Plotted data of the left handle including the fit:')
-    print('![Fit on the left handle data](left_force.png)')
-    print('Plotted data of the right handle including the fit:')
-    print('![Fit on the right handle data](right_force.png)')
+    print('Plotted data of the handles including the fit:\n')
+    print('| Left handle | Right handle |')
+    print('|-|-|')
+    print('| ![Fit on the left handle data](left_force.png) | ![Fit on the right handle data](right_force.png) |')
 
 
 def evaluate_torques():
