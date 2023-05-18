@@ -33,6 +33,7 @@ Results:
 |-|-|-|
 |left|0.987|-1.946|
 |right|1.154|-2.658|
+
 ![Fit on the left handle data](left_force.png)
 ![Fit on the right handle data](right_force.png)
 

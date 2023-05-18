@@ -91,6 +91,7 @@ def evaluate_forces():
     for i in range(len(handles)):
         print(f'|{handles[i]}|{a_s[i]:.3f}|{b_s[i]:.3f}|')
 
+    print()
     print('![Fit on the left handle data](left_force.png)')
     print('![Fit on the right handle data](right_force.png)')
 
