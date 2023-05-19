@@ -2,12 +2,12 @@
 
 In order to see the magnitude of the error of the handle data, we measured weights attached in x direction for testing
 purposes. We used wights of 1kg (actually 1.1kg), 2kg (actually 1.95kg), 5kg (actually 5.2kg) and 10kg (actually 10kg).
-This gave us force data for the x-Axis and torque data for the y-axis.
+This gave us force data for the x-axis and torque data for the y-axis.
 We measured in two different distances of the sensors (42mm and 132mm).
 
 Further more a linear regression was made with least squares in order to find the offset of the measured data.
 
-The results can be found below
+The results can be found below.
 
 ### Forces left
 
