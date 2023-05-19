@@ -199,7 +199,7 @@ def evaluate_torques():
 def main():
     print('## Calibration measurements of the handles')
     print(
-        'In order to see the magnitude of the error of the handle data, we measured for testing purposes weights attached in x direction. We used wights of 1kg (actually 1.1kg), 2kg (actually 1.95kg), 5kg (actually 5.2kg) and 10kg (actually 10kg). This gave us force data for the x-Axis and torque data for the y-axis.')
+        'In order to see the magnitude of the error of the handle data, we measured weights attached in x direction for testing purposes. We used wights of 1kg (actually 1.1kg), 2kg (actually 1.95kg), 5kg (actually 5.2kg) and 10kg (actually 10kg). This gave us force data for the x-Axis and torque data for the y-axis.')
     print('We measured in two different distances of the sensors (42mm and 132mm).')
     print()
     print(
