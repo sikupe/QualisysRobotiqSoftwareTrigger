@@ -65,3 +65,19 @@ Plotted data of the handles including the fit:
 | 2kg | 1.95kg | 132mm | 2.5251 Nm | -2.4359 ± 0.0049 Nm | -0.0066 ± 0.0302 Nm |
 | 5kg | 5.2kg | 132mm | 6.7336 Nm | -6.2749 ± 0.0100 Nm | -0.0308 ± 0.1163 Nm |
 | 10kg | 10.0kg | 132mm | 12.9492 Nm | -12.3407 ± 0.0055 Nm | 0.0904 ± 0.4318 Nm |
+
+# Torque data fit
+
+Linear regression on the function `y(x) = a * x + b` with least squares on the torque data of the handles.
+
+Results:
+|Handle|a|b|
+|-|-|-|
+|left|0.996|-0.114|
+|right|0.951|-0.012|
+
+Plotted data of the handles including the fit:
+
+| Left handle | Right handle |
+|-|-|
+| ![Fit on the left handle data](left_force.png) | ![Fit on the right handle data](right_force.png) |

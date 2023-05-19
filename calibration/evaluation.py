@@ -26,9 +26,7 @@ def evaluate_forces():
             '| Weight | Weight measured | Distance | Measured Force w/o weight | Measured Force w/ weight | Calculated weight |')
         print('|-|-|-|-|-|-|')
 
-        x_data = []
-        x_data.extend(actual_forces)
-        x_data.extend(actual_forces)
+        x_data = [*actual_forces, *actual_forces]
 
         y_data = []
         y_err = []
@@ -109,13 +107,24 @@ def evaluate_torques():
     distances = [42, 132]
     weights = [1, 2, 5, 10]
     actual_weights = [1.1, 1.95, 5.2, 10.0]
+    actual_forces = -np.array(actual_weights) * 9.81
+
+    def linear(x, a, b):
+        return a * x + b
+
+    a_s = []
+    b_s = []
 
     for handle in handles:
         print(f'# Torques {handle}')
         print(
             '| Weight | Weight measured | Distance | Expected torque | Measured torque w/ weight | Measured torque w/o weight |')
         print('|-|-|-|-|-|-|')
+        y_data = []
+        y_err = []
         for distance in distances:
+            y_data_unflattened = []
+            y_err_unflattened = []
             for weight, actual_weight in zip(weights, actual_weights):
                 path = join(handle, f'{weight}kg_{distance}mm.csv')
                 data = pd.read_csv(path, sep=',', skip_blank_lines=True, on_bad_lines='skip',
@@ -133,8 +142,55 @@ def evaluate_torques():
                 zero_std = np.std(zero_values)
                 torque_std = np.std(torque_values)
 
+                y_data_unflattened.append(torque_avg)
+                y_err_unflattened.append(torque_std)
+
                 print(
                     f'| {weight}kg | {actual_weight}kg | {distance}mm | {(actual_weight * 9.81 * distance / 1000):.4f} Nm | {torque_avg:.4f} ± {torque_std:.4f} Nm | {zero_avg:.4f} ± {zero_std:.4f} Nm |')
+
+            y_data.append(y_data_unflattened)
+            y_err.append(y_err_unflattened)
+
+        y_data = np.array(y_data)
+        y_err = np.array(y_err)
+        x_data = np.array([*(actual_forces * distances[0] / 1000), *(actual_forces * distances[1] / 1000)])
+
+        popt, pcov = curve_fit(linear, x_data, y_data.flatten())
+        a, b = popt
+        a_s.append(a)
+        b_s.append(b)
+
+        fig, ax = plt.subplots()
+
+        x_line = np.linspace(min(x_data), max(x_data), 100)
+        y_line = linear(x_line, a, b)
+
+        ax.set_title(f'Torque data fit for {handle} handle')
+        ax.errorbar(x_data, y_data.flatten(), yerr=y_err.flatten(), fmt='+', color='blue',
+                    label=f'Measurements')
+        ax.set_xlabel('Expected torque in Nm')
+        ax.set_ylabel('Measured torque in Nm')
+        ax.plot(x_line, y_line, color='red', label='Fitted curve')
+        ax.legend()
+
+        plt.plot()
+        plt.savefig(f'{handle}_torque.png')
+        plt.close()
+
+    print('# Torque data fit')
+    print(
+        'Linear regression on the function `y(x) = a * x + b` with least squares on the torque data of the handles.\n\n')
+    print('Results:')
+    print('|Handle|a|b|')
+    print('|-|-|-|')
+    for i in range(len(handles)):
+        print(f'|{handles[i]}|{a_s[i]:.3f}|{b_s[i]:.3f}|')
+
+    print()
+    print('Plotted data of the handles including the fit:\n')
+    print('| Left handle | Right handle |')
+    print('|-|-|')
+    print('| ![Fit on the left handle data](left_force.png) | ![Fit on the right handle data](right_force.png) |')
 
 
 def main():
