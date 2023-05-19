@@ -1,4 +1,15 @@
-# Forces left
+## Calibration measurements of the handles
+
+In order to see the magnitude of the error of the handle data, we measured for testing purposes weights attached in x
+direction. We used wights of 1kg (actually 1.1kg), 2kg (actually 1.95kg), 5kg (actually 5.2kg) and 10kg (actually 10kg).
+This gave us force data for the x-Axis and torque data for the y-axis.
+We measured in two different distances of the sensors (42mm and 132mm).
+
+Further more a linear regression was made with least squares in order to find the offset of the measured data.
+
+The results can be found below
+
+### Forces left
 
 | Weight | Weight measured | Distance | Measured Force w/o weight | Measured Force w/ weight | Calculated weight |
 |-|-|-|-|-|-|
@@ -11,7 +22,7 @@
 | 5kg | 5.2kg | 132mm | -0.46 ± 1.24 N | -53.09 ± 0.22 N | 5.41 kg |
 | 10kg | 10.0kg | 132mm | -0.69 ± 1.77 N | -99.22 ± 0.39 N | 10.11 kg |
 
-# Forces right
+### Forces right
 
 | Weight | Weight measured | Distance | Measured Force w/o weight | Measured Force w/ weight | Calculated weight |
 |-|-|-|-|-|-|
@@ -24,7 +35,7 @@
 | 5kg | 5.2kg | 132mm | -0.35 ± 1.13 N | -64.80 ± 0.18 N | 6.61 kg |
 | 10kg | 10.0kg | 132mm | 0.14 ± 5.81 N | -120.90 ± 0.14 N | 12.32 kg |
 
-# Force data fit
+### Force data fit
 
 Linear regression on the function `y(x) = a * x + b` with least squares on the force data of the handles.
 
@@ -40,7 +51,7 @@ Plotted data of the handles including the fit:
 |-|-|
 | ![Fit on the left handle data](left_force.png) | ![Fit on the right handle data](right_force.png) |
 
-# Torques left
+### Torques left
 
 | Weight | Weight measured | Distance | Expected torque | Measured torque w/ weight | Measured torque w/o weight |
 |-|-|-|-|-|-|
@@ -53,7 +64,7 @@ Plotted data of the handles including the fit:
 | 5kg | 5.2kg | 132mm | 6.7336 Nm | -6.6281 ± 0.0104 Nm | -0.0801 ± 0.1318 Nm |
 | 10kg | 10.0kg | 132mm | 12.9492 Nm | -12.9658 ± 0.0254 Nm | 0.0440 ± 0.1777 Nm |
 
-# Torques right
+### Torques right
 
 | Weight | Weight measured | Distance | Expected torque | Measured torque w/ weight | Measured torque w/o weight |
 |-|-|-|-|-|-|
@@ -66,7 +77,7 @@ Plotted data of the handles including the fit:
 | 5kg | 5.2kg | 132mm | 6.7336 Nm | -6.2749 ± 0.0100 Nm | -0.0308 ± 0.1163 Nm |
 | 10kg | 10.0kg | 132mm | 12.9492 Nm | -12.3407 ± 0.0055 Nm | 0.0904 ± 0.4318 Nm |
 
-# Torque data fit
+### Torque data fit
 
 Linear regression on the function `y(x) = a * x + b` with least squares on the torque data of the handles.
 

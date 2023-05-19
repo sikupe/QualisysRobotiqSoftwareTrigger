@@ -21,7 +21,7 @@ def evaluate_forces():
     b_s = []
 
     for handle in handles:
-        print(f'# Forces {handle}')
+        print(f'### Forces {handle}')
         print(
             '| Weight | Weight measured | Distance | Measured Force w/o weight | Measured Force w/ weight | Calculated weight |')
         print('|-|-|-|-|-|-|')
@@ -86,7 +86,7 @@ def evaluate_forces():
         plt.savefig(f'{handle}_force.png')
         plt.close()
 
-    print('# Force data fit')
+    print('### Force data fit')
     print(
         'Linear regression on the function `y(x) = a * x + b` with least squares on the force data of the handles.\n\n')
     print('Results:')
@@ -116,7 +116,7 @@ def evaluate_torques():
     b_s = []
 
     for handle in handles:
-        print(f'# Torques {handle}')
+        print(f'### Torques {handle}')
         print(
             '| Weight | Weight measured | Distance | Expected torque | Measured torque w/ weight | Measured torque w/o weight |')
         print('|-|-|-|-|-|-|')
@@ -180,7 +180,7 @@ def evaluate_torques():
         plt.savefig(f'{handle}_torque.png')
         plt.close()
 
-    print('# Torque data fit')
+    print('### Torque data fit')
     print(
         'Linear regression on the function `y(x) = a * x + b` with least squares on the torque data of the handles.\n\n')
     print('Results:')
@@ -197,6 +197,15 @@ def evaluate_torques():
 
 
 def main():
+    print('## Calibration measurements of the handles')
+    print(
+        'In order to see the magnitude of the error of the handle data, we measured for testing purposes weights attached in x direction. We used wights of 1kg (actually 1.1kg), 2kg (actually 1.95kg), 5kg (actually 5.2kg) and 10kg (actually 10kg). This gave us force data for the x-Axis and torque data for the y-axis.')
+    print('We measured in two different distances of the sensors (42mm and 132mm).')
+    print()
+    print(
+        'Further more a linear regression was made with least squares in order to find the offset of the measured data.')
+    print()
+    print('The results can be found below')
     evaluate_forces()
     evaluate_torques()
 
