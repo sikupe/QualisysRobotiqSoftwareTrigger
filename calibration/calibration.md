@@ -80,4 +80,4 @@ Plotted data of the handles including the fit:
 
 | Left handle | Right handle |
 |-|-|
-| ![Fit on the left handle data](left_force.png) | ![Fit on the right handle data](right_force.png) |
+| ![Fit on the left handle data](left_torque.png) | ![Fit on the right handle data](right_torque.png) |
