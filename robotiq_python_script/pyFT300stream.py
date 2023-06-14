@@ -108,7 +108,7 @@ TIMEOUT=1
 #Check the name of the port using robotiq user interface. It should be something
 #like: COM12
 
-PORTNAME="COM5"
+PORTNAME="COM4"
 
 #Set the slave ID of the gripper. By default it is 9.
 
@@ -130,6 +130,7 @@ if __name__ == '__main__':
     #0.5s (50 times)will ensure that the Sensor stops the stream.
     ser=serial.Serial(port=PORTNAME, baudrate=BAUDRATE, bytesize=BYTESIZE, parity=PARITY, stopbits=STOPBITS, timeout=TIMEOUT)
     packet = bytearray()
+
     sendCount=0
     while sendCount<50:
       packet.append(0xff)
