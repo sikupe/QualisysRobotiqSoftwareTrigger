@@ -15,44 +15,40 @@ class CsvLogger:
         self.do_run = True
 
     def print_header(self, file: IO):
-        file.write('time,frequency,forceX,forceY,forceZ,torqueX,torqueY,torqueZ\n')
+        file.write('time,frequency,forceX,forceY,forceZ,torqueX,torqueY,torqueZ,posixtime\n')
 
     def print_data_point(self, file: IO, dp: HandleDataPoint):
         file.write(
-            f'{dp.elapsed_time},{dp.frequency},{dp.force.x},{dp.force.y},{dp.force.z},{dp.torque.x},{dp.torque.y},{dp.torque.z}\n')
+            f'{dp.elapsed_time},{dp.frequency},{dp.force.x},{dp.force.y},{dp.force.z},{dp.torque.x},{dp.torque.y},{dp.torque.z},{dp.absolute_time}\n')
 
-    def _run(self):
+    def _run(self, connector, filename):
         try:
-            gen_left = self.connector_left.read()
-            gen_right = self.connector_right.read()
+            gen = connector.read()
 
-            with open(self.filename_left, 'w') as f_left:
-                with open(self.filename_right, 'w') as f_right:
-                    self.print_header(f_left)
-                    self.print_header(f_right)
+            with open(filename, 'w') as f:
+                self.print_header(f)
 
-                    while self.do_run:
-                        left: HandleDataPoint = next(gen_left)
-                        right: HandleDataPoint = next(gen_right)
+                while self.do_run:
+                    hdp: HandleDataPoint = next(gen)
 
-                        self.print_data_point(f_left, left)
-                        self.print_data_point(f_right, right)
+                    self.print_data_point(f, hdp)
         finally:
-            self.connector_left.teardown()
-            self.connector_right.teardown()
-
+            connector.teardown()
     def start(self):
-        self.thread = threading.Thread(target=self._run)
-        self.thread.start()
+        self.thread_left = threading.Thread(target=self._run, args=(self.connector_left, self.filename_left))
+        self.thread_left.start()
+        self.thread_right = threading.Thread(target=self._run, args=(self.connector_right, self.filename_right))
+        self.thread_right.start()
 
     def join(self):
-        self.thread.join()
+        self.thread_left.join()
+        self.thread_right.join()
 
     def stop(self):
         self.do_run = False
 
     @staticmethod
-    def create(left_port: str, right_port: str, filename_left: str, filename_right: str):
+    def create(left_port: str, right_port: str, filename_left: str, filename_right: str) -> 'CsvLogger':
         connector_right = HandleConnector(right_port)
         connector_left = HandleConnector(left_port)
 

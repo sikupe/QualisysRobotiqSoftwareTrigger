@@ -107,8 +107,8 @@ TIMEOUT=1
 #Check the name of the port using robotiq user interface. It should be something
 #like: COM12
 
-PORTNAME1="COM5"
-PORTNAME2="COM16"
+PORTNAME1="COM3"
+PORTNAME2="COM4"
 
 #Set the slave ID of the gripper. By default it is 9.
 

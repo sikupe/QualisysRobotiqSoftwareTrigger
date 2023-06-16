@@ -21,6 +21,7 @@ class Server(object):
     def __init__(self, interface, port):
         self.interface = interface
         self.port = port
+        self.is_running = True
         thread = threading.Thread(target=self.run, args=())
         thread.daemon = True
         thread.start()
@@ -29,12 +30,14 @@ class Server(object):
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.bind((self.interface, self.port))
 
-        while True:
+        while self.is_running:
             data, addr = sock.recvfrom(1024)
             # print('server', data)
             status_qtm.value = int(data)
             print('server', status_qtm.value)
 
+    def stop(self):
+        self.is_running = False
 
 def delete_last_line_of_file(fileobj):
     pos = fileobj.tell() - 1
