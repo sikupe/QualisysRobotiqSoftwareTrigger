@@ -178,7 +178,8 @@ class HandleConnector:
             # CRC validation
             ################
             if self.crc_check(data_array) is False:
-                raise Exception("CRC ERROR: Serial message and the CRC does not match")
+                print("CRC ERROR: Serial message and the CRC does not match")
+                continue
 
             # Frequency
             ###############
