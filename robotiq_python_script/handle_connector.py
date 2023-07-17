@@ -124,7 +124,8 @@ class HandleConnector:
         self.thread.start()
 
     def _start_read_async(self):
-        start_time = time.time()
+        start_time_absolute = time.time()
+        start_time = time.perf_counter()
 
         ############################
         # Initialize stream reading
@@ -186,12 +187,13 @@ class HandleConnector:
             # Update message counter
             nbr_messages += 1
             # Update timer
-            current_time = time.time()
+            current_time = time.perf_counter()
             elapsed_time = current_time - start_time
+            current_time_absolute = start_time_absolute + elapsed_time
             # Calculate average frequency
             frequency = round(nbr_messages / elapsed_time) if elapsed_time > 0 else 0
 
-            data_point = HandleDataPoint(current_time, elapsed_time, frequency,
+            data_point = HandleDataPoint(current_time_absolute, elapsed_time, frequency,
                                          Coordinate(force_torque[0], force_torque[1], force_torque[2]),
                                          Coordinate(force_torque[3], force_torque[4], force_torque[5]))
 
