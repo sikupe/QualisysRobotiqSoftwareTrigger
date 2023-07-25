@@ -58,8 +58,10 @@ class HandleConnector:
         self.timeout = timeout
         self.serial: Optional[serial.Serial] = None
         self.thread: Optional[threading.Thread] = None
+        self.dispatcher_thread: Optional[threading.Thread] = None
         self.queue = Queue()
         self.is_running = False
+        self.subscribers = []
 
     def start(self):
         ############################
@@ -122,6 +124,8 @@ class HandleConnector:
         self.is_running = True
         self.thread = threading.Thread(target=self._start_read_async)
         self.thread.start()
+        self.dispatcher_thread = threading.Thread(target=self._dispatch_loop)
+        self.dispatcher_thread.start()
 
     def _start_read_async(self):
         start_time_absolute = time.time()
@@ -199,6 +203,15 @@ class HandleConnector:
                                          Coordinate(force_torque[3], force_torque[4], force_torque[5]))
 
             self.queue.put(data_point)
+
+    def subscribe(self, subscriber):
+        self.subscribers.append(subscriber)
+
+    def _dispatch_loop(self):
+        while self.is_running:
+            el = self.queue.get()
+            for s in self.subscribers:
+                s.dispatch(el)
 
     def read(self):
         while True:
