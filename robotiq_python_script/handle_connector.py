@@ -180,7 +180,8 @@ class HandleConnector:
             ################
             if self.crc_check(data_array) is False:
                 print("CRC ERROR: Serial message and the CRC does not match")
-                continue
+                for i in range(len(force_torque)):
+                    force_torque[i] = float('nan')
 
             # Frequency
             ###############
