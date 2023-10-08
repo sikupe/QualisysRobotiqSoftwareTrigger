@@ -5,58 +5,58 @@ from typing import IO
 from robotiq_python_script.handle_connector import HandleConnector, HandleDataPoint, Coordinate
 
 
+class CsvPrinter:
+    def __init__(self, filename) -> None:
+        self.filename = filename
+        self.file = open(self.filename, 'w')
+        self.stopped = False
+        self.print_header()
+
+    def print_header(self):
+        self.file.write('time,frequency,forceX,forceY,forceZ,torqueX,torqueY,torqueZ,posixtime\n')
+        self.file.flush()
+
+    def print_data_point(self, dp: HandleDataPoint):
+        self.file.write( 
+            f'{dp.elapsed_time},{dp.frequency},{dp.force.x},{dp.force.y},{dp.force.z},{dp.torque.x},{dp.torque.y},{dp.torque.z},{dp.absolute_time}\n')
+        self.file.flush()
+        
+    def stop(self):
+        self.stopped = True
+        self.file.close()
+        
+    def dispatch(self, hdp: HandleDataPoint):
+        if not self.stopped:
+            self.print_data_point(hdp)
+
+
 class CsvLogger:
-    def __init__(self, connector_right: HandleConnector, connector_left: HandleConnector, filename_left: str,
-                 filename_right: str):
-        self.filename_right = abspath(filename_right)
-        self.filename_left = abspath(filename_left)
+    def __init__(self, connector_right: HandleConnector, connector_left: HandleConnector, csv_printer_left: CsvPrinter,
+                 csv_printer_right: CsvPrinter):
         self.connector_right = connector_right
         self.connector_left = connector_left
-        self.do_run = True
-
-    def print_header(self, file: IO):
-        file.write('time,frequency,forceX,forceY,forceZ,torqueX,torqueY,torqueZ\n')
-
-    def print_data_point(self, file: IO, dp: HandleDataPoint):
-        file.write(
-            f'{dp.elapsed_time},{dp.frequency},{dp.force.x},{dp.force.y},{dp.force.z},{dp.torque.x},{dp.torque.y},{dp.torque.z}\n')
-
-    def _run(self):
-        try:
-            gen_left = self.connector_left.read()
-            gen_right = self.connector_right.read()
-
-            with open(self.filename_left, 'w') as f_left:
-                with open(self.filename_right, 'w') as f_right:
-                    self.print_header(f_left)
-                    self.print_header(f_right)
-
-                    while self.do_run:
-                        left: HandleDataPoint = next(gen_left)
-                        right: HandleDataPoint = next(gen_right)
-
-                        self.print_data_point(f_left, left)
-                        self.print_data_point(f_right, right)
-        finally:
-            self.connector_left.teardown()
-            self.connector_right.teardown()
+        self.csv_printer_left = csv_printer_left
+        self.csv_printer_right = csv_printer_right
 
     def start(self):
-        self.thread = threading.Thread(target=self._run)
-        self.thread.start()
-
-    def join(self):
-        self.thread.join()
+        self.connector_left.start()
+        self.connector_right.start()
 
     def stop(self):
-        self.do_run = False
+        self.connector_left.teardown()
+        self.connector_right.teardown()
+        self.csv_printer_left.stop()
+        self.csv_printer_right.stop()
 
     @staticmethod
-    def create(left_port: str, right_port: str, filename_left: str, filename_right: str):
+    def create(left_port: str, right_port: str, filename_left: str, filename_right: str) -> 'CsvLogger':
         connector_right = HandleConnector(right_port)
         connector_left = HandleConnector(left_port)
 
-        connector_left.start()
-        connector_right.start()
+        subscriber_left = CsvPrinter(abspath(filename_left))
+        connector_left.subscribe(subscriber_left)
 
-        return CsvLogger(connector_right, connector_left, filename_left, filename_right)
+        subscriber_right = CsvPrinter(abspath(filename_right))
+        connector_right.subscribe(subscriber_right)
+
+        return CsvLogger(connector_right, connector_left, subscriber_left, subscriber_right)
